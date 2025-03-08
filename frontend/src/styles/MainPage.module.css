@@ -1,0 +1,217 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;  /* Use 100vh for full viewport height */
+    background-color: #fff;
+    font-family: sans-serif;
+    overflow: hidden; /* Prevent scrolling on the container */
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #ccc;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.menuButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right: auto;
+    z-index: 2;
+}
+
+.menuIconLine {
+    width: 25px;
+    height: 3px;
+    background-color: #000;
+    margin: 5px 0;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+    text-transform: lowercase;
+    text-align: center;
+    flex-grow: 1;
+    margin-right: 40px;
+}
+
+.mainContent {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevent scrolling within mainContent */
+    padding: 0;      /* Remove any padding here */
+}
+
+.questionContainer {
+    padding: 0; /* No padding here */
+    text-align: center;
+    max-height: 100%;
+    width: 100%;
+}
+
+.question {
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: #000;
+    text-transform: lowercase;
+    margin: 0;
+    display: inline-block;
+}
+
+.footer {
+    padding: 0;
+    border-top: 1px solid #ccc;
+    background-color: #fff;
+    flex-shrink: 0; /* Prevent footer from shrinking */
+}
+
+.inputArea {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    border-radius: 25px;
+    border: 2px solid black;
+    margin: 0.5rem;  /* Keep margin around the input area */
+    padding: 0 0.5rem; /* Padding only on left/right */
+}
+
+.input {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.5rem 0; /* Keep vertical padding */
+}
+
+.input::placeholder {
+    color: #aaa;
+    font-style: italic;
+    text-transform: lowercase;
+}
+
+.buttonContainer {
+    display: flex;
+    margin-left: auto;
+}
+
+.iconButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.iconButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.iconButton svg {
+    width: 20px;
+    height: 20px;
+    fill: #fff;
+}
+
+/* Responsive Adjustments (Media Queries) */
+
+/* Very Small Screens (e.g., older phones) - More aggressive adjustments */
+@media (max-width: 320px) { /*  Add a breakpoint for very small screens */
+    .header {
+        padding: 0.5rem; /* Even less padding */
+    }
+    .menuButton {
+        margin-right: 0;
+    }
+    .logo {
+        font-size: 1rem; /* Even smaller font */
+        margin-right: 10px;
+    }
+
+    .question {
+        font-size: 1rem; /*  Even smaller font */
+    }
+
+    .inputArea {
+        margin: 0.2rem;  /* Even less margin */
+        padding: 0 0.2rem;
+    }
+}
+
+/* Small screens (e.g., mobile phones) */
+@media (max-width: 600px) {
+    .header {
+        padding: 0.75rem;
+    }
+    .logo {
+        font-size: 1.2rem;
+        margin-right: 20px; /* Reduce margin */
+    }
+    .menuButton {
+        margin-right: 0px;
+    }
+    .questionContainer {
+        padding: 0.5rem;  /* Less padding */
+    }
+
+    .question {
+        font-size: 1.1rem;
+    }
+
+    .inputArea {
+        margin: 0.3rem;
+        padding: 0 0.3rem;
+    }
+
+    .input {
+        font-size: 0.9rem;
+        padding: 0.4rem 0;
+    }
+
+    .iconButton {
+        width: 30px;
+        height: 30px;
+        margin-left: 0.5rem; /* Reduce margin */
+    }
+
+    .iconButton svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Medium screens (e.g., tablets) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    .questionContainer {
+        padding: 0.75rem;
+    }
+    .question {
+        font-size: 1.4rem;
+    }
+
+    .input {
+        font-size: 0.95rem;
+    }
+}

@@ -1,0 +1,91 @@
+/* SignUp.module.css */
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 400px;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-align: center;
+    color: black;
+    text-transform: lowercase;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.input {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.input::placeholder { /* Targeting the placeholder text */
+    color: #999; /* Light grey color */
+    font-style: italic;  /* Italic style, as in the image */
+    text-transform: lowercase;
+}
+
+.button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #000000;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 20px; /* Space between last input and button */
+}
+
+.button:hover {
+    background-color: #333333;
+}
+
+.loginLink {
+    margin-top: 30px; /* Space between button and link */
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.link {
+    color: #000000;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+}
+.link:hover {
+    color: #333333
+} 

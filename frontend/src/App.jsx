@@ -1,18 +1,24 @@
-import { useState } from 'react'
-import axios from 'axios'
-import './App.css'
+// App.jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Welcome from './components/Welcome';
+import Login from './components/Login';
+import SignUp from './components/SignUp'; 
+import ForgotPassword from './components/ForgotPassword';
+import MainPage from './components/MainPage'; 
 
-const apiCall = () => {
-  axios.get('http://localhost:3000').then(res => console.log(res.data))
-}
+const App = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Welcome />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/mainpage" element={<MainPage />} />
+            </Routes>
+        </Router>
+    );
+};
 
-export default function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <h1>Test!!</h1>
-      <button onClick={apiCall}>Make API Call</button>
-    </>
-  )
-}
+export default App;
