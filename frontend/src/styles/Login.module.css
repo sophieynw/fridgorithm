@@ -20,12 +20,12 @@
 
 .title {
     font-size: 2.5rem;
-    font-weight: bold;
+    font-weight: bold; 
     margin-bottom: 40px;
     text-align: center;
     color: black;
     text-transform: lowercase;
-    line-height: 1.2; /* Adjust line height for multi-line title */
+    line-height: 1.2; 
 }
 
 .form {
@@ -66,7 +66,7 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    margin-top: 20px; /* Space between input and button */
+    margin-top: 20px; 
 }
 
 .button:hover {
@@ -74,7 +74,7 @@
 }
 
 .forgotPasswordLink {
-    margin-top: 15px; /* Space between button and link */
+    margin-top: 15px; 
     text-align: center;
     font-size: 0.9rem;
     color: #000000;
@@ -89,7 +89,7 @@
 }
 
 .signUpLink {
-    margin-top: 30px; /* Space between "forgot password" and "sign up" */
+    margin-top: 30px; 
     text-align: center;
     font-size: 0.9rem;
     color: #555;

@@ -9,11 +9,11 @@ const Welcome = () => {
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
-        navigate('/login'); // Navigate to the login route
+        navigate('/login'); 
     };
 
     const handleSignUpClick = () => {
-        navigate('/signup'); // Navigate to the signup route
+        navigate('/signup'); 
     };
 
 

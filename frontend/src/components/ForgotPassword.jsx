@@ -14,20 +14,11 @@ const ForgotPassword = () => {
             alert('Please enter your email address.');
             return;
         }
-
         // Simulate sending a password reset email (replace with actual API call)
         console.log('Sending password reset email to:', email);
 
-        // In a real application, you would:
-        // 1. Send a request to your backend to generate a password reset token.
-        // 2. Send an email to the user with a link containing the token.
-        // 3. The link would lead to a page where the user can set a new password.
-
-        // For this example, we'll just navigate to a confirmation page (you could
-        // create a separate "PasswordResetSent.jsx" component).
-        // Or, even better, show a success message on the *same* page, without navigating.
-        alert('Password reset email sent!  (Simulated)'); // Show success to the user.
-        navigate('/login'); // Redirect user.  Consider keeping them on this page.
+        alert('Password reset email sent!  (Simulated)'); 
+        navigate('/login'); 
     };
     const handleSignUpClick = () => {
         navigate('/signup');

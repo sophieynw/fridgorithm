@@ -1,7 +1,7 @@
 // SignUp.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../styles/SignUp.module.css'; // Import the CSS Module
+import styles from '../styles/SignUp.module.css'; 
 
 const SignUp = () => {
     const [name, setName] = useState('');
@@ -10,21 +10,14 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const handleSignUp = (event) => {
-        event.preventDefault(); // Prevent default form submission behavior
+        event.preventDefault(); 
 
-        // Basic validation (you'll want more robust validation in a real app)
+        // Basic validation 
         if (!name || !email || !password) {
             alert('Please fill in all fields.');
             return;
         }
-
-        // Here you would typically make an API call to your backend
-        // to create the new user.  For this example, we'll just log the data
-        // and navigate to the login page.
         console.log('Signing up:', { name, email, password });
-
-        // In a real app, after successful signup, you might automatically log the user in
-        // or redirect them to a confirmation page.  For simplicity, we go to login.
         navigate('/login');
     };
 

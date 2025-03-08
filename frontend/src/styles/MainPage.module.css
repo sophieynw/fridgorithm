@@ -1,10 +1,10 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;  /* Use 100vh for full viewport height */
+    height: 100vh;  
     background-color: #fff;
     font-family: sans-serif;
-    overflow: hidden; /* Prevent scrolling on the container */
+    overflow: hidden; 
 }
 
 .header {
@@ -13,7 +13,7 @@
     justify-content: space-between;
     padding: 1rem;
     border-bottom: 1px solid #ccc;
-    flex-shrink: 0; /* Prevent header from shrinking */
+    flex-shrink: 0; 
 }
 
 .menuButton {
@@ -48,12 +48,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Prevent scrolling within mainContent */
-    padding: 0;      /* Remove any padding here */
+    overflow: hidden; 
+    padding: 0;      
 }
 
 .questionContainer {
-    padding: 0; /* No padding here */
+    padding: 0; 
     text-align: center;
     max-height: 100%;
     width: 100%;
@@ -72,7 +72,7 @@
     padding: 0;
     border-top: 1px solid #ccc;
     background-color: #fff;
-    flex-shrink: 0; /* Prevent footer from shrinking */
+    flex-shrink: 0; 
 }
 
 .inputArea {
@@ -81,8 +81,8 @@
     background-color: #333;
     border-radius: 25px;
     border: 2px solid black;
-    margin: 0.5rem;  /* Keep margin around the input area */
-    padding: 0 0.5rem; /* Padding only on left/right */
+    margin: 0.5rem;  
+    padding: 0 0.5rem; 
 }
 
 .input {
@@ -92,7 +92,7 @@
     outline: none;
     color: #fff;
     font-size: 1rem;
-    padding: 0.5rem 0; /* Keep vertical padding */
+    padding: 0.5rem 0; 
 }
 
 .input::placeholder {
@@ -133,25 +133,25 @@
 
 /* Responsive Adjustments (Media Queries) */
 
-/* Very Small Screens (e.g., older phones) - More aggressive adjustments */
-@media (max-width: 320px) { /*  Add a breakpoint for very small screens */
+/* Very Small Screens (e.g., older phones) */
+@media (max-width: 320px) { 
     .header {
-        padding: 0.5rem; /* Even less padding */
+        padding: 0.5rem; 
     }
     .menuButton {
         margin-right: 0;
     }
     .logo {
-        font-size: 1rem; /* Even smaller font */
+        font-size: 1rem; 
         margin-right: 10px;
     }
 
     .question {
-        font-size: 1rem; /*  Even smaller font */
+        font-size: 1rem; 
     }
 
     .inputArea {
-        margin: 0.2rem;  /* Even less margin */
+        margin: 0.2rem;  
         padding: 0 0.2rem;
     }
 }
@@ -163,13 +163,13 @@
     }
     .logo {
         font-size: 1.2rem;
-        margin-right: 20px; /* Reduce margin */
+        margin-right: 20px; 
     }
     .menuButton {
         margin-right: 0px;
     }
     .questionContainer {
-        padding: 0.5rem;  /* Less padding */
+        padding: 0.5rem;  
     }
 
     .question {
@@ -189,7 +189,7 @@
     .iconButton {
         width: 30px;
         height: 30px;
-        margin-left: 0.5rem; /* Reduce margin */
+        margin-left: 0.5rem;
     }
 
     .iconButton svg {

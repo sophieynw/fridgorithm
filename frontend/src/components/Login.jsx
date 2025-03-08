@@ -1,7 +1,7 @@
 // Login.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../styles/Login.module.css'; // Import CSS Module
+import styles from '../styles/Login.module.css'; 
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -18,14 +18,6 @@ const Login = () => {
 
         // Simulate login (replace with actual API call)
         console.log('Logging in:', { email, password });
-
-        // In a real application, you would:
-        // 1. Send a request to your backend to authenticate the user.
-        // 2. If authentication is successful, store the user's token (e.g., JWT)
-        //    in local storage or a cookie.
-        // 3. Redirect the user to the main app page (e.g., a dashboard).
-
-        // For this example, we'll just navigate to a placeholder "MainPage".
         navigate('/mainpage');
     };
 

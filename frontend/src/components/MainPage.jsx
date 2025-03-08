@@ -22,7 +22,6 @@ const MainPage = () => {
             </header>
 
             <main className={styles.mainContent}>
-                {/*  Wrap the question in a container */}
                 <div className={styles.questionContainer}>
                     <h2 className={styles.question}>What's in your fridge?</h2>
                 </div>
