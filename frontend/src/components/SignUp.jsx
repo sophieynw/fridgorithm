@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/SignUp.module.css'; 
+import axios from "axios";
 
 const SignUp = () => {
     const [name, setName] = useState('');
@@ -17,6 +18,16 @@ const SignUp = () => {
             alert('Please fill in all fields.');
             return;
         }
+
+        // api call
+        axios.post("http://localhost:3000/api/auth/signup", {
+            name: name,
+            email: email,
+            password: password
+        })
+        .then(response => console.log(response.data))
+        .catch(error => console.error("Error: ", error));
+
         console.log('Signing up:', { name, email, password });
         navigate('/login');
     };
