@@ -69,6 +69,21 @@ app.use(
   })
 );
 
+// For debugging - log all incoming requests with more detail
+// app.use((req, res, next) => {
+//   console.log(`${req.method} ${req.url}`);
+//   console.log('Headers:', JSON.stringify(req.headers, null, 2));
+//   console.log('Query params:', req.query);
+//   console.log(
+//     'Body type:',
+//     typeof req.body,
+//     Array.isArray(req.body) ? 'array' : 'not array'
+//   );
+//   console.log('Body content:', req.body);
+//   console.log('Raw body:', req.rawBody);
+//   next();
+// });
+
 // routes
 
 // test API route
