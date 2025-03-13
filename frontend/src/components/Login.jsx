@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Login.module.css'; 
+import axios from 'axios';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -16,9 +17,18 @@ const Login = () => {
             return;
         }
 
+        // api call
+        axios.post("http://localhost:3000/api/auth/login", {
+            email: email,
+            password: password
+        })
+        .then(response => console.log(response.data))
+        .catch(error => console.error("Error: ", error));
+
         // Simulate login (replace with actual API call)
         console.log('Logging in:', { email, password });
         navigate('/mainpage');
+        
     };
 
     const handleForgotPasswordClick = () => {
