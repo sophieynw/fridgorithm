@@ -7,6 +7,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
 const passport = require('passport');
 
 // config
@@ -27,6 +28,10 @@ app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(
   session({
+    store: new SQLiteStore({
+      db: 'sessions.sqlite',
+      dir: './db',
+    }),
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
