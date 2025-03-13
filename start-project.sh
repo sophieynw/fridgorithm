@@ -14,11 +14,7 @@ start_project() {
   npm install
 
   echo "Starting $name..."
-  if [ "$name" = "Backend" ]; then
-    npm start & disown  # Run in background
-  else
-    npm run dev & disown  # Run in background
-  fi
+  npm run dev & disown  # Run in background
 
   cd - > /dev/null  # Return to root directory
 }
