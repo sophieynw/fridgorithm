@@ -41,6 +41,7 @@ function getUserByEmail(email) {
   return db.prepare('SELECT * from users where email = ?').get(email);
 }
 
+
 module.exports = {
   db,
   addUser,

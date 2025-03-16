@@ -1,80 +1,117 @@
-// Login.jsx
 import React, { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
-import styles from '../styles/Login.module.css'; 
+
+import styles from '../styles/Login.module.css';
+
 import axios from 'axios';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+  const [email, setEmail] = useState('');
 
-    const handleLogin = (event) => {
-        event.preventDefault();
+  const [password, setPassword] = useState('');
 
-        if (!email || !password) {
-            alert('Please enter both email and password.');
-            return;
-        }
+  const navigate = useNavigate();
 
-        // api call
-        axios.post("http://localhost:3000/api/auth/login", {
-            email: email,
-            password: password
-        })
-        .then(response => console.log(response.data))
-        .catch(error => console.error("Error: ", error));
+  const handleLogin = (event) => {
+    event.preventDefault();
 
-        // Simulate login (replace with actual API call)
-        console.log('Logging in:', { email, password });
+    if (!email || !password) {
+      alert('Please enter both email and password.');
+
+      return;
+    }
+
+    // api call
+
+    axios
+      .post(
+        'http://localhost:3000/api/auth/login',
+        {
+          email: email,
+
+          password: password,
+        },
+        { withCredentials: true }
+      )
+
+      .then((response) => {
+        console.log(response.data);
+        // this is for checking
+        // console.log('Logging in:', { email, password });
+
         navigate('/mainpage');
-        
-    };
+      })
 
-    const handleForgotPasswordClick = () => {
-        navigate('/forgotpassword');
-    };
+      .catch((error) => console.error('Error: ', error));
+  };
 
-     const handleSignUpClick = () => {
-        navigate('/signup');
-    };
+  const handleForgotPasswordClick = () => {
+    navigate('/forgotpassword');
+  };
 
-    return (
-        <div className={styles.container}>
-            <div className={styles.content}>
-                <h1 className={styles.title}>hi jane,<br />welcome back!</h1>
-                <form className={styles.form} onSubmit={handleLogin}>
-                    <label className={styles.label} htmlFor="email">EMAIL</label>
-                    <input
-                        className={styles.input}
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="jane@gmail.com"
-                    />
+  const handleSignUpClick = () => {
+    navigate('/signup');
+  };
 
-                    <label className={styles.label} htmlFor="password">PASSWORD</label>
-                    <input
-                        className={styles.input}
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="********"
-                    />
+  return (
+    <div className={styles.container}>
+      <div className={styles.content}>
+        <h1 className={styles.title}>
+          hi jane,
+          <br />
+          welcome back!
+        </h1>
 
-                    <button className={styles.button} type="submit">log in</button>
-                </form>
-                <p className={styles.forgotPasswordLink} onClick={handleForgotPasswordClick}>
-                  forgot password?
-                </p>
-                <p className={styles.signUpLink}>
-                    don't have an account? <span className={styles.link}onClick={handleSignUpClick}>sign up here</span>.
-                </p>
-            </div>
-        </div>
-    );
+        <form className={styles.form} onSubmit={handleLogin}>
+          <label className={styles.label} htmlFor="email">
+            EMAIL
+          </label>
+
+          <input
+            className={styles.input}
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="jane@gmail.com"
+          />
+
+          <label className={styles.label} htmlFor="password">
+            PASSWORD
+          </label>
+
+          <input
+            className={styles.input}
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="********"
+          />
+
+          <button className={styles.button} type="submit">
+            log in
+          </button>
+        </form>
+
+        <p
+          className={styles.forgotPasswordLink}
+          onClick={handleForgotPasswordClick}
+        >
+          forgot password?
+        </p>
+
+        <p className={styles.signUpLink}>
+          don't have an account?{' '}
+          <span className={styles.link} onClick={handleSignUpClick}>
+            sign up here
+          </span>
+          .
+        </p>
+      </div>
+    </div>
+  );
 };
 
 export default Login;
