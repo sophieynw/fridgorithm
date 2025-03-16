@@ -41,9 +41,6 @@ function getUserByEmail(email) {
   return db.prepare('SELECT * from users where email = ?').get(email);
 }
 
-// TODO: update? - may not need
-
-// TODO: delete? - may not need
 
 module.exports = {
   db,

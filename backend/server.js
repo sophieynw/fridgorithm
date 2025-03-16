@@ -2,54 +2,46 @@
 
 require('dotenv').config();
 
-// module dependencies
-
 const express = require('express');
 const cors = require('cors');
-const session = require('express-session');
-const SQLiteStore = require('connect-sqlite3')(session);
 const passport = require('passport');
 
-// config
+const setupSession = require('./config/session');
+const setupRoutes = require('./routes');
 
+// Initialize app
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 app.set('port', port);
-app.set('trust proxy', true); // If app is served through a proxy, trust the proxy to allow HTTPS protocol to be detected (not sure if we need this)
-
-// middleware
+app.set('trust proxy', true);
 
 const corsOptions = {
+  origin: ['http://localhost:5173', 'http://localhost:3000'],
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-ConnectionId'],
+  exposedHeaders: ['Set-Cookie']
 };
 app.use(cors(corsOptions));
-app.use(express.json()); // for parsing application/json
-app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(
-  session({
-    store: new SQLiteStore({
-      db: 'sessions.sqlite',
-      dir: './db',
-    }),
-    secret: process.env.SESSION_SECRET,
-    saveUninitialized: false,
-    resave: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    },
-  })
-);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/api/pre-session-test', (req, res) => {
+  res.json({ message: 'This route works before session middleware' });
+});
+
+setupSession(app);
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-// routes
-const authRoutes = require('./routes/Auth.routes');
-app.use('/api/auth', authRoutes);
 
-/* istanbul ignore next */
+setupRoutes(app);
+
+
 app.listen(port, () => {
   console.log(`✅ Server running on http://localhost:${port}`);
 });

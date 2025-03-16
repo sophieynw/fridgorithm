@@ -1,217 +1,243 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;  
-    background-color: #fff;
-    font-family: sans-serif;
-    overflow: hidden; 
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #fff;
+  font-family: sans-serif;
+  overflow: hidden;
 }
 
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    border-bottom: 1px solid #ccc;
-    flex-shrink: 0; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+  flex-shrink: 0;
 }
 
 .menuButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin-right: auto;
-    z-index: 2;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-right: auto;
+  z-index: 2;
 }
 
 .menuIconLine {
-    width: 25px;
-    height: 3px;
-    background-color: #000;
-    margin: 5px 0;
+  width: 25px;
+  height: 3px;
+  background-color: #000;
+  margin: 5px 0;
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #000;
-    margin: 0;
-    text-transform: lowercase;
-    text-align: center;
-    flex-grow: 1;
-    margin-right: 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+  margin: 0;
+  text-transform: lowercase;
+  text-align: center;
+  flex-grow: 1;
+  margin-right: 40px;
 }
 
 .mainContent {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; 
-    padding: 0;      
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0;
 }
 
 .questionContainer {
-    padding: 0; 
-    text-align: center;
-    max-height: 100%;
-    width: 100%;
+  padding: 0;
+  text-align: center;
+  max-height: 100%;
+  width: 100%;
 }
 
 .question {
-    font-size: 1.5rem;
-    font-weight: normal;
-    color: #000;
-    text-transform: lowercase;
-    margin: 0;
-    display: inline-block;
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: #000;
+  text-transform: lowercase;
+  margin: 0;
+  display: inline-block;
 }
 
 .footer {
-    padding: 0;
-    border-top: 1px solid #ccc;
-    background-color: #fff;
-    flex-shrink: 0; 
+  padding: 0;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+  flex-shrink: 0;
 }
 
 .inputArea {
-    display: flex;
-    align-items: center;
-    background-color: #333;
-    border-radius: 25px;
-    border: 2px solid black;
-    margin: 0.5rem;  
-    padding: 0 0.5rem; 
+  display: flex;
+  align-items: center;
+  background-color: #333;
+  border-radius: 25px;
+  border: 2px solid black;
+  margin: 0.5rem;
+  padding: 0 0.5rem;
 }
 
 .input {
-    flex: 1;
-    border: none;
-    background: none;
-    outline: none;
-    color: #fff;
-    font-size: 1rem;
-    padding: 0.5rem 0; 
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem 0;
 }
 
 .input::placeholder {
-    color: #aaa;
-    font-style: italic;
-    text-transform: lowercase;
+  color: #aaa;
+  font-style: italic;
+  text-transform: lowercase;
 }
 
 .buttonContainer {
-    display: flex;
-    margin-left: auto;
+  display: flex;
+  margin-left: auto;
 }
 
 .iconButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin-left: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    transition: background-color 0.2s;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
 }
 
 .iconButton:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .iconButton svg {
-    width: 20px;
-    height: 20px;
-    fill: #fff;
+  width: 20px;
+  height: 20px;
+  fill: #fff;
+}
+
+/* listening animation */
+.listening {
+  background-color: rgba(255, 0, 0, 0.2);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.statusMessage {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 10px;
+  color: #666;
+  font-style: italic;
 }
 
 /* Responsive Adjustments (Media Queries) */
 
 /* Very Small Screens (e.g., older phones) */
-@media (max-width: 320px) { 
-    .header {
-        padding: 0.5rem; 
-    }
-    .menuButton {
-        margin-right: 0;
-    }
-    .logo {
-        font-size: 1rem; 
-        margin-right: 10px;
-    }
+@media (max-width: 320px) {
+  .header {
+    padding: 0.5rem;
+  }
+  .menuButton {
+    margin-right: 0;
+  }
+  .logo {
+    font-size: 1rem;
+    margin-right: 10px;
+  }
 
-    .question {
-        font-size: 1rem; 
-    }
+  .question {
+    font-size: 1rem;
+  }
 
-    .inputArea {
-        margin: 0.2rem;  
-        padding: 0 0.2rem;
-    }
+  .inputArea {
+    margin: 0.2rem;
+    padding: 0 0.2rem;
+  }
 }
 
 /* Small screens (e.g., mobile phones) */
 @media (max-width: 600px) {
-    .header {
-        padding: 0.75rem;
-    }
-    .logo {
-        font-size: 1.2rem;
-        margin-right: 20px; 
-    }
-    .menuButton {
-        margin-right: 0px;
-    }
-    .questionContainer {
-        padding: 0.5rem;  
-    }
+  .header {
+    padding: 0.75rem;
+  }
+  .logo {
+    font-size: 1.2rem;
+    margin-right: 20px;
+  }
+  .menuButton {
+    margin-right: 0px;
+  }
+  .questionContainer {
+    padding: 0.5rem;
+  }
 
-    .question {
-        font-size: 1.1rem;
-    }
+  .question {
+    font-size: 1.1rem;
+  }
 
-    .inputArea {
-        margin: 0.3rem;
-        padding: 0 0.3rem;
-    }
+  .inputArea {
+    margin: 0.3rem;
+    padding: 0 0.3rem;
+  }
 
-    .input {
-        font-size: 0.9rem;
-        padding: 0.4rem 0;
-    }
+  .input {
+    font-size: 0.9rem;
+    padding: 0.4rem 0;
+  }
 
-    .iconButton {
-        width: 30px;
-        height: 30px;
-        margin-left: 0.5rem;
-    }
+  .iconButton {
+    width: 30px;
+    height: 30px;
+    margin-left: 0.5rem;
+  }
 
-    .iconButton svg {
-        width: 18px;
-        height: 18px;
-    }
+  .iconButton svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 /* Medium screens (e.g., tablets) */
 @media (min-width: 601px) and (max-width: 1024px) {
-    .logo {
-        font-size: 1.4rem;
-    }
+  .logo {
+    font-size: 1.4rem;
+  }
 
-    .questionContainer {
-        padding: 0.75rem;
-    }
-    .question {
-        font-size: 1.4rem;
-    }
+  .questionContainer {
+    padding: 0.75rem;
+  }
+  .question {
+    font-size: 1.4rem;
+  }
 
-    .input {
-        font-size: 0.95rem;
-    }
+  .input {
+    font-size: 0.95rem;
+  }
 }
