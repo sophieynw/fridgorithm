@@ -20,8 +20,13 @@ const corsOptions = {
   origin: ['http://localhost:5173', 'http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-ConnectionId'],
-  exposedHeaders: ['Set-Cookie']
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'X-ConnectionId',
+  ],
+  exposedHeaders: ['Set-Cookie'],
 };
 app.use(cors(corsOptions));
 
@@ -34,13 +39,10 @@ app.get('/api/pre-session-test', (req, res) => {
 
 setupSession(app);
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 setupRoutes(app);
-
 
 app.listen(port, () => {
   console.log(`✅ Server running on http://localhost:${port}`);
