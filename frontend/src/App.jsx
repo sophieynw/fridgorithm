@@ -5,7 +5,8 @@ import Welcome from './components/Welcome';
 import Login from './components/Login';
 import SignUp from './components/SignUp'; 
 import ForgotPassword from './components/ForgotPassword';
-import MainPage from './components/MainPage'; 
+import MainPage from './components/MainPage';
+import ImageAnalysisTest from './components/ImageAnalysisTest'; // Added this line for testing VisionAI
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/mainpage" element={<MainPage />} />
+                <Route path="/image-test" element={<ImageAnalysisTest />} /> {/* Added this line for testing VisionAI */}
             </Routes>
         </Router>
     );

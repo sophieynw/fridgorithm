@@ -8,8 +8,8 @@ const db = new Database(path.join(__dirname, 'fridgorithm.db'), {
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email VARCHAR(255) UNIQUE NOT NULL,
     name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
   )
 `);
@@ -40,7 +40,6 @@ function addUser(name, email, password) {
 function getUserByEmail(email) {
   return db.prepare('SELECT * from users where email = ?').get(email);
 }
-
 
 module.exports = {
   db,
