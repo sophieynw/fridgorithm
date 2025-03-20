@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import * as speechsdk from 'microsoft-cognitiveservices-speech-sdk';
 import { getTokenOrRefresh } from '../utils/tokenUtil';
 import DebugPanel from './DebugPanel';
+import MenuButton from './MenuButton';
+import ChatMessage from './ChatMessage';
+import LogoutButton from './LogoutButton';
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -12,9 +15,11 @@ const MainPage = () => {
   const [speechConfig, setSpeechConfig] = useState(null);
   const [statusMessage, setStatusMessage] = useState('');
   const recognizerRef = useRef(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [messages, setMessages] = useState([]); //Array to store chat messages
 
   useEffect(() => {
-    // Initialize speech config when component mounts
+    //Initialize speech config when component mounts
     async function initializeSpeechConfig() {
       try {
         setStatusMessage('Initializing speech services...');
@@ -53,8 +58,7 @@ const MainPage = () => {
   }, []);
 
   const handleMenuClick = () => {
-    console.log('Menu button clicked');
-    navigate('');
+    setIsMenuOpen(!isMenuOpen); //Toggle menu state
   };
 
   const handleInputChange = (e) => {
@@ -174,18 +178,19 @@ const MainPage = () => {
     }
   };
 
+  const handleSubmit = () => {
+    if (inputText.trim()) { // Prevent empty messages
+      setMessages([...messages, { text: inputText, sender: 'user' }]);
+      setInputText(''); // Clear the input field
+    }
+  };
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <button
-          className={styles.menuButton}
-          onClick={handleMenuClick}
-          aria-label="Menu"
-        >
-          <div className={styles.menuIconLine}></div>
-          <div className={styles.menuIconLine}></div>
-        </button>
+      <MenuButton onClick={handleMenuClick} isOpen={isMenuOpen} ariaLabel="Toggle Menu" /> 
         <h1 className={styles.logo}>fridgorithm</h1>
+        <LogoutButton />
       </header>
 
       <main className={styles.mainContent}>
@@ -195,16 +200,25 @@ const MainPage = () => {
             <div className={styles.statusMessage}>{statusMessage}</div>
           )}
         </div>
-      </main>
 
-      <footer className={styles.footer}>
+        <div className={styles.chatContainer}>
+          {messages.map((message, index) => (
+            <ChatMessage key={index} message={message} />
+          ))}
+        </div>
+
         <div className={styles.inputArea}>
           <input
             type="text"
             className={styles.input}
-            placeholder="What are we working with?"
+            placeholder="What do you want to cook today?"
             value={inputText}
             onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter'){
+                handleSubmit();
+              }
+            }}
           />
           <div className={styles.buttonContainer}>
             <button
@@ -216,18 +230,12 @@ const MainPage = () => {
               }
               onClick={handleVoiceInput}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                width="24px"
-                height="24px"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-8c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V6zm6 5c0 2.21-1.79 4-4 4s-4-1.79-4-4H8c0 2.76 2.24 5 5 5s5-2.24 5-5h-2z" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
               </svg>
+
             </button>
-            <button className={styles.iconButton} aria-label="Submit">
+            <button className={styles.iconButton} aria-label="Submit" onClick={handleSubmit}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -241,9 +249,11 @@ const MainPage = () => {
             </button>
           </div>
         </div>
-      </footer>
+      </main>
+
+
       {/* this is for debugging */}
-      <DebugPanel />
+      {/* <DebugPanel /> */}
     </div>
   );
 };
