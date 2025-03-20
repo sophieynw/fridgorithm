@@ -1,12 +1,15 @@
+/* MainPage.module.css */
+
+/* ====== Global Styles ====== */
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   background-color: #fff;
   font-family: sans-serif;
-  overflow: hidden;
 }
 
+/* ====== Header Section ====== */
 .header {
   display: flex;
   align-items: center;
@@ -14,6 +17,7 @@
   padding: 1rem;
   border-bottom: 1px solid #ccc;
   flex-shrink: 0;
+  position: relative;
 }
 
 .menuButton {
@@ -39,19 +43,32 @@
   margin: 0;
   text-transform: lowercase;
   text-align: center;
-  flex-grow: 1;
-  margin-right: 40px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
+/* ====== Main Content Section ====== */
 .mainContent {
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  padding: 0;
+  flex-direction: column;
+  padding: 1rem 1rem 4rem;
+  gap: 1rem;
+  min-height: 0;
 }
 
+.chatContainer {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  min-height: 0;
+}
+
+/* ====== Question Section ====== */
 .questionContainer {
   padding: 0;
   text-align: center;
@@ -60,29 +77,28 @@
 }
 
 .question {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: normal;
   color: #000;
   text-transform: lowercase;
   margin: 0;
   display: inline-block;
+  line-height: 1.3;
 }
 
-.footer {
-  padding: 0;
-  border-top: 1px solid #ccc;
-  background-color: #fff;
-  flex-shrink: 0;
-}
-
+/* ====== Input Section ====== */
 .inputArea {
   display: flex;
   align-items: center;
   background-color: #333;
   border-radius: 25px;
   border: 2px solid black;
-  margin: 0.5rem;
-  padding: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-top: auto;
+  position: sticky;
+  bottom: 7rem;
+  z-index: 1;
+  margin: 0 1rem;
 }
 
 .input {
@@ -101,6 +117,7 @@
   text-transform: lowercase;
 }
 
+/* ====== Button Section ====== */
 .buttonContainer {
   display: flex;
   margin-left: auto;
@@ -131,7 +148,7 @@
   fill: #fff;
 }
 
-/* listening animation */
+/* ====== Listening Animation ====== */
 .listening {
   background-color: rgba(255, 0, 0, 0.2);
   animation: pulse 1.5s infinite;
@@ -149,6 +166,7 @@
   }
 }
 
+/* ====== Status Message ====== */
 .statusMessage {
   font-size: 0.9rem;
   text-align: center;
@@ -157,7 +175,7 @@
   font-style: italic;
 }
 
-/* Responsive Adjustments (Media Queries) */
+/* ====== Responsive Adjustments (Media Queries) ====== */
 
 /* Very Small Screens (e.g., older phones) */
 @media (max-width: 320px) {
@@ -171,18 +189,16 @@
     font-size: 1rem;
     margin-right: 10px;
   }
-
   .question {
     font-size: 1rem;
   }
-
   .inputArea {
     margin: 0.2rem;
     padding: 0 0.2rem;
   }
 }
 
-/* Small screens (e.g., mobile phones) */
+/* Small Screens (e.g., mobile phones) */
 @media (max-width: 600px) {
   .header {
     padding: 0.75rem;
@@ -197,46 +213,39 @@
   .questionContainer {
     padding: 0.5rem;
   }
-
   .question {
     font-size: 1.1rem;
   }
-
   .inputArea {
     margin: 0.3rem;
     padding: 0 0.3rem;
   }
-
   .input {
     font-size: 0.9rem;
     padding: 0.4rem 0;
   }
-
   .iconButton {
     width: 30px;
     height: 30px;
     margin-left: 0.5rem;
   }
-
   .iconButton svg {
     width: 18px;
     height: 18px;
   }
 }
 
-/* Medium screens (e.g., tablets) */
+/* Medium Screens (e.g., tablets) */
 @media (min-width: 601px) and (max-width: 1024px) {
   .logo {
     font-size: 1.4rem;
   }
-
   .questionContainer {
     padding: 0.75rem;
   }
   .question {
     font-size: 1.4rem;
   }
-
   .input {
     font-size: 0.95rem;
   }

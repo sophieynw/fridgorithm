@@ -1,0 +1,40 @@
+.logoutButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #333;
+  transition: all 0.2s ease;
+  font-family: sans-serif;
+  text-transform: lowercase;
+  font-size: 0.9rem;
+}
+
+.logoutButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #000;
+}
+
+.logoutButton:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.2);
+  outline-offset: 2px;
+}
+
+/* Hide text on mobile, show only icon */
+@media (max-width: 600px) {
+  .logoutButton span {
+    display: none;
+  }
+  .logoutButton {
+    padding: 0.5rem;
+  }
+}
+
+.logoutButton svg {
+  width: 1em;
+  height: 1em;
+}

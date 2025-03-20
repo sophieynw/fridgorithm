@@ -1,0 +1,30 @@
+.messageContainer {
+    margin-bottom: 0.5rem; 
+    padding: 0.5rem;
+    border-radius: 8px;
+    max-width: 80%; 
+    word-wrap: break-word; 
+    display: flex; 
+
+}
+
+.userMessage {
+    background-color: #797c80; /* Grey for user */
+    color: white;
+    align-self: flex-end; /* Align user messages to the right */
+    margin-left: auto; /* Push user messages to the right */
+    border-bottom-right-radius: 2px; 
+
+
+}
+
+.aiMessage {
+    background-color: #f0f0f0; /* Light gray for AI */
+    color: black;
+    align-self: flex-start; /* Align AI messages to the left */
+    border-bottom-left-radius: 2px; 
+
+}
+.messageText{
+  margin: 0;
+}
