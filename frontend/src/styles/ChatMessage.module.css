@@ -1,30 +1,72 @@
+/* Message container and alignment */
 .messageContainer {
-    margin-bottom: 0.5rem; 
-    padding: 0.5rem;
-    border-radius: 8px;
-    max-width: 80%; 
-    word-wrap: break-word; 
-    display: flex; 
-
+  display: flex;
+  margin-bottom: 16px;
+  width: 100%;
 }
 
 .userMessage {
-    background-color: #797c80; /* Grey for user */
-    color: white;
-    align-self: flex-end; /* Align user messages to the right */
-    margin-left: auto; /* Push user messages to the right */
-    border-bottom-right-radius: 2px; 
-
-
+  justify-content: flex-end;
 }
 
-.aiMessage {
-    background-color: #f0f0f0; /* Light gray for AI */
-    color: black;
-    align-self: flex-start; /* Align AI messages to the left */
-    border-bottom-left-radius: 2px; 
-
+.assistantMessage {
+  justify-content: flex-start;
 }
-.messageText{
+
+/* Message content styling */
+.messageContent {
+  max-width: 80%;
+  border-radius: 18px;
+  padding: 0.5rem;
+  word-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.userMessage .messageContent {
+  background-color: #797c80;
+  color: white;
+  border-bottom-right-radius: 2px;
+}
+
+.assistantMessage .messageContent {
+  background-color: #f0f0f0;
+  color: black;
+  border-bottom-left-radius: 2px;
+}
+
+/* Fix for list display issues */
+.markdownContent ul,
+.markdownContent ol {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-left: 2em;
+  line-height: 1.5;
+}
+
+.markdownContent li {
+  display: list-item;
+  margin-bottom: 0.3em;
+}
+
+.markdownContent li > p {
+  display: inline;
   margin: 0;
+}
+
+/* Blockquote styling */
+.markdownContent blockquote {
+  margin: 0.5em 0;
+  padding-left: 1em;
+  color: #6a737d;
+  border-left: 3px solid #dfe2e5;
+}
+
+/* Other utility classes */
+.markdownContent .task-list-item {
+  list-style-type: none;
+}
+
+.markdownContent .task-list-item-checkbox {
+  margin-right: 0.5em;
 }

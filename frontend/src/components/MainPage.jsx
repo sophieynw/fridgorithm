@@ -1,22 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '../styles/MainPage.module.css';
-import { useNavigate } from 'react-router-dom';
 import * as speechsdk from 'microsoft-cognitiveservices-speech-sdk';
 import { getTokenOrRefresh } from '../utils/tokenUtil';
 import DebugPanel from './DebugPanel';
 import MenuButton from './MenuButton';
 import ChatMessage from './ChatMessage';
 import LogoutButton from './LogoutButton';
+import { sendMessageToOpenAI } from '../utils/openaiService';
 
 const MainPage = () => {
-  const navigate = useNavigate();
   const [inputText, setInputText] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [speechConfig, setSpeechConfig] = useState(null);
   const [statusMessage, setStatusMessage] = useState('');
   const recognizerRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [messages, setMessages] = useState([]); //Array to store chat messages
+  const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [conversationHistory, setConversationHistory] = useState([
+    {
+      role: 'system',
+      content:
+        'You are a helpful AI assistant that provides cooking suggestions based on ingredients users have in their fridge. Format your responses using markdown for better readability: \n\n' +
+        '- Use **bold text** for important information\n' +
+        '- Use bullet points (like this list) for ingredients\n' +
+        '- Use numbered lists (1., 2., 3.) for recipe steps\n' +
+        '- Use headings (# or ##) for recipe titles\n' +
+        '- Add blank lines between paragraphs\n\n' +
+        'Make your responses easy to read with proper formatting.',
+    },
+  ]);
 
   useEffect(() => {
     //Initialize speech config when component mounts
@@ -178,17 +191,62 @@ const MainPage = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (inputText.trim()) { // Prevent empty messages
-      setMessages([...messages, { text: inputText, sender: 'user' }]);
-      setInputText(''); // Clear the input field
+  const handleSubmit = async () => {
+    if (inputText.trim()) {
+      // Add user message to UI
+      const userMessage = { text: inputText, sender: 'user' };
+      setMessages((prev) => [...prev, userMessage]);
+
+      // Update conversation history
+      const userMessageForAPI = { role: 'user', content: inputText };
+      const updatedHistory = [...conversationHistory, userMessageForAPI];
+      setConversationHistory(updatedHistory);
+
+      // Clear input field
+      setInputText('');
+
+      // Show loading state
+      setIsLoading(true);
+
+      try {
+        // Send message to OpenAI
+        const aiResponse = await sendMessageToOpenAI(updatedHistory);
+
+        // Add AI response to UI
+        const aiMessage = { text: aiResponse.content, sender: 'assistant' };
+        setMessages((prev) => [...prev, aiMessage]);
+
+        // Update conversation history with AI response
+        setConversationHistory([
+          ...updatedHistory,
+          {
+            role: 'assistant',
+            content: aiResponse.content,
+          },
+        ]);
+      } catch (error) {
+        console.error('Failed to get AI response:', error);
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: 'Sorry, I had trouble processing your request. Please try again.',
+            sender: 'assistant',
+          },
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-      <MenuButton onClick={handleMenuClick} isOpen={isMenuOpen} ariaLabel="Toggle Menu" /> 
+        <MenuButton
+          onClick={handleMenuClick}
+          isOpen={isMenuOpen}
+          ariaLabel="Toggle Menu"
+        />
         <h1 className={styles.logo}>fridgorithm</h1>
         <LogoutButton />
       </header>
@@ -205,6 +263,11 @@ const MainPage = () => {
           {messages.map((message, index) => (
             <ChatMessage key={index} message={message} />
           ))}
+          {isLoading && (
+            <div className={styles.loadingIndicator}>
+              <span>Thinking...</span>
+            </div>
+          )}
         </div>
 
         <div className={styles.inputArea}>
@@ -215,7 +278,7 @@ const MainPage = () => {
             value={inputText}
             onChange={handleInputChange}
             onKeyDown={(e) => {
-              if (e.key === 'Enter'){
+              if (e.key === 'Enter') {
                 handleSubmit();
               }
             }}
@@ -230,12 +293,27 @@ const MainPage = () => {
               }
               onClick={handleVoiceInput}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"
+                />
               </svg>
-
             </button>
-            <button className={styles.iconButton} aria-label="Submit" onClick={handleSubmit}>
+            <button
+              className={styles.iconButton}
+              aria-label="Submit"
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -250,10 +328,6 @@ const MainPage = () => {
           </div>
         </div>
       </main>
-
-
-      {/* this is for debugging */}
-      {/* <DebugPanel /> */}
     </div>
   );
 };
