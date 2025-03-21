@@ -250,3 +250,32 @@
     font-size: 0.95rem;
   }
 }
+
+.loadingIndicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  color: #666;
+}
+
+.loadingIndicator span {
+  position: relative;
+}
+
+.loadingIndicator span:after {
+  content: '...';
+  position: absolute;
+  width: 0;
+  animation: loading 1.5s infinite;
+  overflow: hidden;
+}
+
+@keyframes loading {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 20px;
+  }
+}
