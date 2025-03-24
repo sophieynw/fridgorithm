@@ -240,64 +240,12 @@ const MainPage = () => {
     }
   };
 
-  const handlePhotoUpload = async (e) => {
+  const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
- 
-    const formData = new FormData();
-    formData.append('image', file);
- 
-    try {
-      setStatusMessage('Analyzing image...');
-      const response = await fetch('http://localhost:3000/api/vision/analyze', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include'
-      });
- 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
- 
-      const data = await response.json();
-      const detectedItems = data.tags ? data.tags.join(', ') : '';
-      const fridgeMessage = `Food items detected: ${detectedItems}.`;
- 
-      const userMessage = { text: fridgeMessage, sender: 'user' };
-      setMessages((prev) => [...prev, userMessage]);
- 
-      const userMessageForAPI = { role: 'user', content: fridgeMessage };
-      const updatedHistory = [...conversationHistory, userMessageForAPI];
-      setConversationHistory(updatedHistory);
-      setIsLoading(true);
-      setInputText('');
- 
-      const aiResponse = await sendMessageToOpenAI(updatedHistory);
-      const aiMessage = { text: aiResponse.content, sender: 'assistant' };
-      setMessages((prev) => [...prev, aiMessage]);
- 
-      setConversationHistory([
-        ...updatedHistory,
-        {
-          role: 'assistant',
-          content: aiResponse.content,
-        },
-      ]);
-    } catch (error) {
-      console.error('Error analyzing image or getting AI response:', error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          text: 'Sorry, there was a problem analyzing the image or contacting the assistant.',
-          sender: 'assistant',
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
-      setStatusMessage('');
-      if (photoInputRef.current) {
-        photoInputRef.current.value = '';
-      }
+    if (file) {
+      // Handle the uploaded photo here
+      console.log('Selected file:', file);
+      // Implement photo processing logic here
     }
   };
   

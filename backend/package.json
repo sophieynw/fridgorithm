@@ -11,6 +11,8 @@
   "description": "",
   "dependencies": {
     "@azure-rest/ai-vision-image-analysis": "^1.0.0-beta.3",
+    "@azure/cognitiveservices-customvision-prediction": "^5.1.2",
+    "@azure/cognitiveservices-customvision-training": "^5.2.0",
     "@azure/core-auth": "^1.9.0",
     "@azure/storage-blob": "^12.26.0",
     "axios": "^1.8.3",
