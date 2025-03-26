@@ -58,7 +58,7 @@ const Login = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <h1 className={styles.title}>
-          hi jane,
+          hi,
           <br />
           welcome back!
         </h1>

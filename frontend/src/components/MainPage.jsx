@@ -354,12 +354,12 @@ const MainPage = () => {
       </header>
 
       <main className={styles.mainContent}>
-        <div className={styles.questionContainer}>
+        {/* <div className={styles.questionContainer}>
           <h2 className={styles.question}>What's in your fridge?</h2>
           {statusMessage && (
             <div className={styles.statusMessage}>{statusMessage}</div>
           )}
-        </div>
+        </div> */}
 
         <div className={styles.chatContainer}>
           {messages.map((message, index) => (
@@ -378,7 +378,7 @@ const MainPage = () => {
           <input
             type="text"
             className={styles.input}
-            placeholder="What do you want to cook today?"
+            placeholder="what's in your fridge?"
             value={inputText}
             onChange={handleInputChange}
             onKeyDown={(e) => {

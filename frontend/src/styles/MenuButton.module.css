@@ -3,21 +3,22 @@
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 1000; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    width: 40px; 
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
     height: 40px;
     margin-right: auto;
+    position: relative;
 }
 
 .menuIcon {
     width: 25px;
-    height: 20px; 
-    position: relative; 
-    transition: transform 0.3s ease-in-out; 
-
+    height: 20px;
+    position: absolute;
+    top: 45%;
+    transition: transform 0.3s ease-in-out;
 }
 
 .menuIconLine {
@@ -26,8 +27,9 @@
     background-color: #000;
     position: absolute;
     left: 0;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, top 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Smooth transitions */
-    border-radius: 2px; 
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, top 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    /* Smooth transitions */
+    border-radius: 2px;
 }
 
 .menuIconLineTop {
@@ -36,31 +38,31 @@
 
 .menuIconLineMiddle {
     top: 50%;
-    transform: translateY(-50%); 
+    transform: translateY(-50%);
 }
 
 .menuIconLineBottom {
     top: 100%;
-    transform: translateY(-100%); 
+    transform: translateY(-100%);
 }
 
 /* Open state styles (the 'X') */
 .menuButtonOpen .menuIconLineTop {
-    top: 50%;
+    top: 0;
     transform: translateY(-50%) rotate(45deg);
-    background-color: #fff; 
+    background-color: #fff;
 }
 
 .menuButtonOpen .menuIconLineMiddle {
-    opacity: 0; 
+    opacity: 0;
 }
 
 .menuButtonOpen .menuIconLineBottom {
-    top: 50%;
+    top: 0;
     transform: translateY(-50%) rotate(-45deg);
     background-color: #fff;
 }
 
-.menuButton:hover .menuIconLine{
+.menuButton:hover .menuIconLine {
     background-color: #696969;
 }

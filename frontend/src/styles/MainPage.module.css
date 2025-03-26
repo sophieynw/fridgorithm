@@ -2,10 +2,11 @@
 body {
   overflow: hidden;
 }
+
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100lvh;
   background-color: #fff;
   font-family: 'Poppins', sans-serif;
 }
@@ -38,10 +39,10 @@ body {
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   color: #000;
-  margin: 0;
+  margin: 10px 0;
   text-transform: lowercase;
   text-align: center;
   position: absolute;
@@ -54,7 +55,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 1rem 1rem 4rem;
+  padding: 1rem 1rem 3rem;
   gap: 1rem;
   min-height: 0;
 }
@@ -94,12 +95,12 @@ body {
   background-color: #333;
   border-radius: 25px;
   border: 2px solid black;
-  padding: 0.5rem 1rem;
+  padding: 0.2rem 1.3rem;
   margin-top: auto;
   position: sticky;
   /* bottom: 5rem; */
   z-index: 1;
-  margin: 0 1rem;
+  margin: 0 1.3rem;
 }
 
 .input {
@@ -159,9 +160,11 @@ body {
   0% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.6;
   }
+
   100% {
     opacity: 1;
   }
@@ -183,19 +186,23 @@ body {
   .header {
     padding: 0.5rem;
   }
+
   .menuButton {
     margin-right: 0;
   }
+
   .logo {
     font-size: 1rem;
     margin-right: 10px;
   }
+
   .question {
     font-size: 1rem;
   }
+
   .inputArea {
     margin: 0.2rem;
-    padding: 0 0.2rem;
+    padding: 0 1rem;
   }
 }
 
@@ -204,32 +211,40 @@ body {
   .header {
     padding: 0.75rem;
   }
+
   .logo {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin-right: 20px;
   }
+
   .menuButton {
     margin-right: 0px;
   }
+
   .questionContainer {
     padding: 0.5rem;
   }
+
   .question {
     font-size: 1.1rem;
   }
+
   .inputArea {
     margin: 0.3rem;
-    padding: 0.2rem 0.3rem;
+    padding: 0.2rem 1rem;
   }
+
   .input {
     font-size: 0.9rem;
     padding: 0.4rem 0;
   }
+
   .iconButton {
     width: 30px;
     height: 30px;
     margin-left: 0.5rem;
   }
+
   .iconButton svg {
     width: 18px;
     height: 18px;
@@ -239,14 +254,17 @@ body {
 /* Medium Screens (e.g., tablets) */
 @media (min-width: 601px) and (max-width: 1024px) {
   .logo {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
   }
+
   .questionContainer {
     padding: 0.75rem;
   }
+
   .question {
     font-size: 1.4rem;
   }
+
   .input {
     font-size: 0.95rem;
   }
@@ -276,6 +294,7 @@ body {
   0% {
     width: 0;
   }
+
   100% {
     width: 20px;
   }
@@ -289,11 +308,13 @@ body {
 }
 
 .heroSection {
-  display: grid;
+  display: flex;
+  justify-content: space-evenly;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   margin-bottom: 4rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .heroText {
@@ -396,6 +417,7 @@ body {
   justify-content: center;
   height: 100%;
   gap: 2rem;
+  padding: 0 1rem;
 }
 
 .fridgeDoor {
@@ -434,12 +456,15 @@ body {
 .egg {
   animation-delay: 0.5s;
 }
+
 .milk {
   animation-delay: 0.7s;
 }
+
 .veg {
   animation-delay: 0.9s;
 }
+
 .meat {
   animation-delay: 1.1s;
 }
@@ -502,10 +527,12 @@ body {
 }
 
 @keyframes fridgeFloat {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -516,6 +543,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -527,10 +555,12 @@ body {
     width: 40px;
     opacity: 0;
   }
+
   50% {
     width: 60px;
     opacity: 1;
   }
+
   100% {
     width: 40px;
     opacity: 0;
@@ -541,23 +571,28 @@ body {
   0% {
     opacity: 0;
   }
+
   50% {
     opacity: 0.6;
   }
+
   100% {
     opacity: 0;
   }
 }
 
 @keyframes cardFloat {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-5px);
   }
 }
+
 /* Loading container styling */
 .loadingContainer {
   display: flex;
@@ -594,12 +629,15 @@ body {
   0% {
     content: '.';
   }
+
   33% {
     content: '..';
   }
+
   66% {
     content: '...';
   }
+
   100% {
     content: '.';
   }
@@ -677,10 +715,12 @@ body {
     top: 0;
     opacity: 0.8;
   }
+
   50% {
     top: calc(100% - 2px);
     opacity: 1;
   }
+
   100% {
     top: 0;
     opacity: 0.8;
@@ -758,6 +798,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -768,10 +809,12 @@ body {
     opacity: 0;
     transform: translateY(0);
   }
+
   50% {
     opacity: 1;
     transform: translateY(-10px);
   }
+
   100% {
     opacity: 0;
     transform: translateY(-20px);
@@ -780,10 +823,12 @@ body {
 
 /* Pulse animation used by multiple elements */
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 0.8;
   }
+
   50% {
     opacity: 1;
   }
@@ -791,6 +836,7 @@ body {
 
 /* ====== Accessibility ====== */
 @media (prefers-reduced-motion: reduce) {
+
   .scanLine,
   .brainPath,
   .bubble,

@@ -1,13 +1,13 @@
 .contactContainer {
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 12rem 5rem 5rem 5rem;
   text-align: center;
-  max-height: 100%;
   width: 100%;
   align-items: center;
   justify-content: center;
 }
+
 .developers {
   display: flex;
   flex-wrap: wrap;
@@ -18,11 +18,13 @@
 
 .developerCard {
   width: 250px;
-  border: 1px solid #ccc;
-  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  padding: 1.5rem 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   text-align: center;
+  background-color: #f9f9f9;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .profileImage {
@@ -31,6 +33,22 @@
   border-radius: 50%;
   margin-bottom: 1rem;
   object-fit: cover;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 3px solid #f2f2f2;
+}
+
+/* Add hover effect to make cards pop */
+.developerCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+/* Add subtle animation to profile image on hover */
+.developerCard:hover .profileImage {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  border-color: #ddd;
 }
 
 .links a {
@@ -38,10 +56,11 @@
   color: #333;
   text-decoration: none;
   display: inline-block;
+  transition: all 0.3s ease;
 }
 
 .links a:hover {
-  color: #007bff;
+  color: rgba(0, 0, 0, 0.15);
 }
 
 .mainContent {
@@ -51,4 +70,10 @@
   align-items: center;
   overflow-y: auto;
   padding: 0;
+}
+
+@media (max-width: 480px) {
+  .contactContainer {
+    padding: 12rem 1rem 2rem 1rem;
+  }
 }
