@@ -7,6 +7,7 @@ import {
   MicrophoneIcon,
   ComputerDesktopIcon,
 } from '@heroicons/react/24/outline';
+import LogoutButton from './LogoutButton';
 
 const About = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,6 +25,7 @@ const About = () => {
           ariaLabel="Toggle Menu"
         />
         <h1 className={styles.logo}>fridgorithm</h1>
+        <LogoutButton />
       </header>
       <main className={styles.mainContent}>
         <div className={aboutStyles.aboutContainer}>

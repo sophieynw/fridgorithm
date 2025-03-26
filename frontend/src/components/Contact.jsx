@@ -5,6 +5,7 @@ import MenuButton from './MenuButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faLaptopCode } from '@fortawesome/free-solid-svg-icons';
+import LogoutButton from './LogoutButton';
 
 const Contact = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,6 +42,7 @@ const Contact = () => {
             <header className={styles.header}>
                 <MenuButton onClick={handleMenuClick} isOpen={isMenuOpen} ariaLabel="Toggle Menu" />
                 <h1 className={styles.logo}>fridgorithm</h1>
+                <LogoutButton />
             </header>
             <main className={contactStyles.mainContent}>
               <div className={contactStyles.contactContainer}>
