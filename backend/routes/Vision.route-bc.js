@@ -41,7 +41,7 @@ router.post('/analyze', upload.single('image'), async (req, res) => {
         contentType: 'application/octet-stream',
         headers: {
           'Prediction-Key': process.env.AZURE_VISION_KEY
-        }
+        },
         queryParameters: {
           features: 'tags',
           'model-version': 'latest',

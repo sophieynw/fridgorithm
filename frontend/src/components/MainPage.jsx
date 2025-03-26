@@ -7,6 +7,7 @@ import MenuButton from './MenuButton';
 import ChatMessage from './ChatMessage';
 import LogoutButton from './LogoutButton';
 import { sendMessageToOpenAI } from '../utils/openaiService';
+import { ImageAnalyzing, Thinking, Loading } from './LoadingAnimation';
 
 const MainPage = () => {
   const [inputText, setInputText] = useState('');
@@ -17,6 +18,8 @@ const MainPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
+  const [isSpeechInitializing, setIsSpeechInitializing] = useState(false);
   const [conversationHistory, setConversationHistory] = useState([
     {
       role: 'system',
@@ -30,12 +33,25 @@ const MainPage = () => {
         'Make your responses easy to read with proper formatting.',
     },
   ]);
+
+  useEffect(() => {
+    return () => {
+      // Clean up any object URLs when the component unmounts
+      messages.forEach((message) => {
+        if (message.type === 'image' && message.imageUrl) {
+          URL.revokeObjectURL(message.imageUrl);
+        }
+      });
+    };
+  }, [messages]);
+
   const photoInputRef = useRef(null);
 
   useEffect(() => {
     //Initialize speech config when component mounts
     async function initializeSpeechConfig() {
       try {
+        setIsSpeechInitializing(true);
         setStatusMessage('Initializing speech services...');
 
         const tokenObj = await getTokenOrRefresh();
@@ -56,6 +72,8 @@ const MainPage = () => {
         setStatusMessage(
           'Error initializing speech services. Please try again later.'
         );
+      } finally {
+        setIsSpeechInitializing(false);
       }
     }
 
@@ -88,6 +106,7 @@ const MainPage = () => {
 
     // Check if we need to initialize or refresh the speech config
     if (!speechConfig) {
+      setIsSpeechInitializing(true);
       setStatusMessage('Initializing speech services...');
 
       try {
@@ -102,6 +121,7 @@ const MainPage = () => {
           setSpeechConfig(config);
         } else {
           setStatusMessage(`Error: ${tokenObj.error || 'Could not get token'}`);
+          setIsSpeechInitializing(false);
           return;
         }
       } catch (error) {
@@ -109,7 +129,10 @@ const MainPage = () => {
         setStatusMessage(
           'Error initializing speech services. Please try again later.'
         );
+        setIsSpeechInitializing(false);
         return;
+      } finally {
+        setIsSpeechInitializing(false);
       }
     }
 
@@ -243,39 +266,56 @@ const MainPage = () => {
   const handlePhotoUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
- 
+
+    // Create a URL for the image preview
+    const imageUrl = URL.createObjectURL(file);
+
     const formData = new FormData();
     formData.append('image', file);
- 
+
     try {
-      setStatusMessage('Analyzing image...');
+      // Set analyzing image state to true to show the animation
+      setIsAnalyzingImage(true);
+
+      // Add the image to the chat immediately
+      const imageMessage = {
+        type: 'image',
+        imageUrl: imageUrl,
+        sender: 'user',
+      };
+      setMessages((prev) => [...prev, imageMessage]);
+
       const response = await fetch('http://localhost:3000/api/vision/analyze', {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        credentials: 'include',
       });
- 
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
- 
+
       const data = await response.json();
       const detectedItems = data.tags ? data.tags.join(', ') : '';
-      const fridgeMessage = `Food items detected: ${detectedItems}.`;
- 
-      const userMessage = { text: fridgeMessage, sender: 'user' };
-      setMessages((prev) => [...prev, userMessage]);
- 
-      const userMessageForAPI = { role: 'user', content: fridgeMessage };
+
+      // Turn off the image analyzing animation
+      setIsAnalyzingImage(false);
+
+      // Send the detected items to the API but don't add as a visible message
+      const userMessageForAPI = {
+        role: 'user',
+        content: `Food items detected: ${detectedItems}. Please suggest recipes based on these ingredients.`,
+      };
       const updatedHistory = [...conversationHistory, userMessageForAPI];
       setConversationHistory(updatedHistory);
+
+      // Switch to thinking animation
       setIsLoading(true);
-      setInputText('');
- 
+
       const aiResponse = await sendMessageToOpenAI(updatedHistory);
       const aiMessage = { text: aiResponse.content, sender: 'assistant' };
       setMessages((prev) => [...prev, aiMessage]);
- 
+
       setConversationHistory([
         ...updatedHistory,
         {
@@ -293,14 +333,14 @@ const MainPage = () => {
         },
       ]);
     } finally {
+      setIsAnalyzingImage(false);
       setIsLoading(false);
-      setStatusMessage('');
       if (photoInputRef.current) {
         photoInputRef.current.value = '';
       }
     }
   };
-  
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -325,10 +365,12 @@ const MainPage = () => {
           {messages.map((message, index) => (
             <ChatMessage key={index} message={message} />
           ))}
-          {isLoading && (
-            <div className={styles.loadingIndicator}>
-              <span>Thinking...</span>
-            </div>
+
+          {/* Use all appropriate loading animations */}
+          {isAnalyzingImage && <ImageAnalyzing />}
+          {isLoading && <Thinking />}
+          {isSpeechInitializing && (
+            <Loading message="Initializing speech services" />
           )}
         </div>
 
@@ -345,7 +387,7 @@ const MainPage = () => {
               }
             }}
           />
-          
+
           <input
             type="file"
             accept="image/*"
@@ -355,12 +397,12 @@ const MainPage = () => {
             style={{ display: 'none' }}
           />
 
-
           <div className={styles.buttonContainer}>
             <button
               className={styles.iconButton}
               aria-label="Upload Photo"
               onClick={() => photoInputRef.current.click()}
+              disabled={isAnalyzingImage || isLoading || isSpeechInitializing}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -390,6 +432,7 @@ const MainPage = () => {
                 isListening ? 'Stop Voice Input' : 'Start Voice Input'
               }
               onClick={handleVoiceInput}
+              disabled={isSpeechInitializing || isAnalyzingImage || isLoading}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -410,7 +453,7 @@ const MainPage = () => {
               className={styles.iconButton}
               aria-label="Submit"
               onClick={handleSubmit}
-              disabled={isLoading}
+              disabled={isLoading || isAnalyzingImage || isSpeechInitializing}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
