@@ -1,12 +1,13 @@
-/* MainPage.module.css */
-
 /* ====== Global Styles ====== */
+body {
+  overflow: hidden;
+}
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   background-color: #fff;
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* ====== Header Section ====== */
@@ -96,7 +97,7 @@
   padding: 0.5rem 1rem;
   margin-top: auto;
   position: sticky;
-  bottom: 7rem;
+  /* bottom: 5rem; */
   z-index: 1;
   margin: 0 1rem;
 }
@@ -218,7 +219,7 @@
   }
   .inputArea {
     margin: 0.3rem;
-    padding: 0 0.3rem;
+    padding: 0.2rem 0.3rem;
   }
   .input {
     font-size: 0.9rem;
@@ -316,7 +317,7 @@
   height: 300px;
   background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
   border-radius: 1rem;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .featureGrid {
@@ -330,7 +331,7 @@
   padding: 2rem;
   background: white;
   border-radius: 1rem;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   text-align: center;
 }
@@ -367,15 +368,15 @@
     grid-template-columns: 1fr;
     text-align: center;
   }
-  
+
   .heroTitle {
     font-size: 2rem;
   }
-  
+
   .heroSubtitle {
     font-size: 1.1rem;
   }
-  
+
   .heroIllustration {
     height: 200px;
   }
@@ -404,7 +405,7 @@
   border: 3px solid #dee2e6;
   border-radius: 10px;
   position: relative;
-  box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
   animation: fridgeFloat 3s ease-in-out infinite;
 }
 
@@ -430,10 +431,18 @@
   animation: ingredientAppear 0.5s forwards;
 }
 
-.egg { animation-delay: 0.5s; }
-.milk { animation-delay: 0.7s; }
-.veg { animation-delay: 0.9s; }
-.meat { animation-delay: 1.1s; }
+.egg {
+  animation-delay: 0.5s;
+}
+.milk {
+  animation-delay: 0.7s;
+}
+.veg {
+  animation-delay: 0.9s;
+}
+.meat {
+  animation-delay: 1.1s;
+}
 
 .recipeTransition {
   position: relative;
@@ -477,7 +486,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   animation: cardFloat 3s ease-in-out infinite;
 }
 
@@ -493,28 +502,303 @@
 }
 
 @keyframes fridgeFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes ingredientAppear {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes arrowFlow {
-  0% { width: 40px; opacity: 0; }
-  50% { width: 60px; opacity: 1; }
-  100% { width: 40px; opacity: 0; }
+  0% {
+    width: 40px;
+    opacity: 0;
+  }
+  50% {
+    width: 60px;
+    opacity: 1;
+  }
+  100% {
+    width: 40px;
+    opacity: 0;
+  }
 }
 
 @keyframes sparkle {
-  0% { opacity: 0; }
-  50% { opacity: 0.6; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes cardFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+/* Loading container styling */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 300px;
+  text-align: center;
+  border-radius: 12px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Loading text styling */
+.loadingText {
+  font-size: 1rem;
+  color: #333333;
+  margin-top: 1rem;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  font-weight: 500;
+}
+
+/* Dot animation for loading text */
+.loadingText::after {
+  content: '';
+  animation: loadingDots 1.5s infinite;
+}
+
+@keyframes loadingDots {
+  0% {
+    content: '.';
+  }
+  33% {
+    content: '..';
+  }
+  66% {
+    content: '...';
+  }
+  100% {
+    content: '.';
+  }
+}
+
+/* ====== Image Analysis Animation ====== */
+.imageAnalysisAnimation {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.scanLine {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #666666, transparent);
+  top: 0;
+  animation: scanAnimation 2s infinite;
+}
+
+.imageFrame {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed #888888;
+  border-radius: 8px;
+  overflow: hidden;
+  animation: pulse 2s infinite;
+}
+
+.cornerTL,
+.cornerTR,
+.cornerBL,
+.cornerBR {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: #444444;
+  border-style: solid;
+  border-width: 0;
+}
+
+.cornerTL {
+  top: 0;
+  left: 0;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.cornerTR {
+  top: 0;
+  right: 0;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+
+.cornerBL {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+
+.cornerBR {
+  bottom: 0;
+  right: 0;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+
+@keyframes scanAnimation {
+  0% {
+    top: 0;
+    opacity: 0.8;
+  }
+  50% {
+    top: calc(100% - 2px);
+    opacity: 1;
+  }
+  100% {
+    top: 0;
+    opacity: 0.8;
+  }
+}
+
+/* ====== Thinking Animation ====== */
+.thinkingAnimation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.brain {
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
+
+.brainPath {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: #555555;
+  animation: brainRotate 2s linear infinite;
+}
+
+.brainPath:nth-child(2) {
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  border-top-color: #666666;
+  animation: brainRotate 1.5s linear infinite reverse;
+}
+
+.brainPath:nth-child(3) {
+  width: 60%;
+  height: 60%;
+  top: 20%;
+  left: 20%;
+  border-top-color: #777777;
+  animation: brainRotate 1s linear infinite;
+}
+
+.thoughtBubbles {
+  position: absolute;
+  top: -15px;
+  right: -10px;
+  display: flex;
+  gap: 3px;
+}
+
+.bubble {
+  width: 8px;
+  height: 8px;
+  background-color: #666666;
+  border-radius: 50%;
+  opacity: 0;
+  animation: bubbleFloat 1.5s infinite;
+}
+
+.bubble:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.bubble:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes brainRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bubbleFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* Pulse animation used by multiple elements */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ====== Accessibility ====== */
+@media (prefers-reduced-motion: reduce) {
+  .scanLine,
+  .brainPath,
+  .bubble,
+  .loadingText::after {
+    animation: none;
+  }
+
+  .loadingText::after {
+    content: '...';
+  }
 }

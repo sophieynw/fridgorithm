@@ -34,6 +34,21 @@
   border-bottom-left-radius: 2px;
 }
 
+/* Add these styles to your existing ChatMessage.module.css file */
+
+.imageWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.uploadedImage {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
 /* Fix for list display issues */
 .markdownContent ul,
 .markdownContent ol {
