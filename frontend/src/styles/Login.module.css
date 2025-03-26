@@ -20,12 +20,12 @@
 
 .title {
     font-size: 2.5rem;
-    font-weight: bold; 
+    font-weight: bold;
     margin-bottom: 40px;
     text-align: center;
     color: black;
     text-transform: lowercase;
-    line-height: 1.2; 
+    line-height: 1.2;
 }
 
 .form {
@@ -49,6 +49,7 @@
     border-radius: 8px;
     font-size: 1rem;
 }
+
 .input::placeholder {
     color: #999;
     font-style: italic;
@@ -66,7 +67,7 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 .button:hover {
@@ -74,7 +75,7 @@
 }
 
 .forgotPasswordLink {
-    margin-top: 15px; 
+    margin-top: 15px;
     text-align: center;
     font-size: 0.9rem;
     color: #000000;
@@ -89,17 +90,19 @@
 }
 
 .signUpLink {
-    margin-top: 30px; 
+    margin-top: 30px;
     text-align: center;
     font-size: 0.9rem;
     color: #555;
 }
+
 .link {
-     color: #000000;
+    color: #000000;
     text-decoration: underline;
     cursor: pointer;
     font-weight: bold;
 }
+
 .link:hover {
     color: #333333
 }
