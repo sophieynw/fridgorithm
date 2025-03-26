@@ -17,20 +17,20 @@ const Contact = () => {
     // Developer data 
     const developers = [
         {
-            name: 'Developer 1',
+            name: 'Sophie Wang',
             image: './images/sophie.png', 
             github: 'https://github.com/sophieynw', 
             linkedin: 'https://linkedin.com/in/sophie-y-wang', 
             portfolio: 'https://sophieynw-portfolio.vercel.app/', 
         },
         {
-            name: 'Developer 2',
+            name: 'Grant Okawa',
             image: './images/grant.jpg', 
             github: 'https://github.com/GrantOkawa', 
             linkedin: 'https://www.linkedin.com/in/grantokawa/', 
         },
         {
-            name: 'Developer 3',
+            name: 'Nghi Lam Vo',
             image: './images/lam.jpg', 
             github: 'https://github.com/maxins1211', 
             linkedin: 'https://www.linkedin.com/in/nghi-lam-vo/', 
