@@ -1,49 +1,84 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import styles from '../styles/SignUp.module.css';
-
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../styles/toast.css';
 
 const SignUp = () => {
   const [name, setName] = useState('');
-
   const [email, setEmail] = useState('');
-
   const [password, setPassword] = useState('');
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
+
+  // Detect if device is mobile for responsive positioning
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleSignUp = (event) => {
     event.preventDefault();
 
+    // Prevent multiple submissions
+    if (isSubmitting) return;
+
     // Basic validation
-
     if (!name || !email || !password) {
-      alert('Please fill in all fields.');
-
+      toast.error('Please fill in all fields.', {
+        position: isMobile ? 'top-center' : 'top-right',
+        autoClose: 3000,
+        className: 'custom-toast-error',
+      });
       return;
     }
 
-    // api call
+    setIsSubmitting(true);
 
+    // API call
     axios
       .post('http://localhost:3000/api/auth/signup', {
         name: name,
-
         email: email,
-
         password: password,
       })
+      .then((response) => {
+        // Show success toast
+        toast.success('Account created successfully!', {
+          position: isMobile ? 'top-center' : 'top-right',
+          autoClose: 1000,
+          className: 'custom-toast-success',
+          onClose: () => {
+            // Navigate only after the toast is closed or times out
+            navigate('/login');
+          },
+        });
 
-      .then((response) => console.log(response.data))
-
-      .catch((error) => console.error('Error: ', error.m));
-
-    console.log('Signing up:', { name, email, password });
-
-    navigate('/login');
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // Show error toast
+        toast.error(
+          error.response?.data?.message ||
+            'Error creating account. Please try again.',
+          {
+            position: isMobile ? 'top-center' : 'top-right',
+            autoClose: 3000,
+            className: 'custom-toast-error',
+          }
+        );
+        console.error('Error: ', error);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   const handleLoginLinkClick = () => {
@@ -67,6 +102,7 @@ const SignUp = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="jane smith"
+            required
           />
 
           <label className={styles.label} htmlFor="email">
@@ -80,6 +116,7 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="jane@gmail.com"
+            required
           />
 
           <label className={styles.label} htmlFor="password">
@@ -93,10 +130,16 @@ const SignUp = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="********"
+            required
+            minLength="3"
           />
 
-          <button className={styles.button} type="submit">
-            sign up
+          <button
+            className={styles.button}
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'signing up...' : 'sign up'}
           </button>
         </form>
 
@@ -108,7 +151,21 @@ const SignUp = () => {
           .
         </p>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer
+        position={isMobile ? 'top-center' : 'top-right'}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        limit={1}
+      />
     </div>
   );
 };
+
 export default SignUp;
