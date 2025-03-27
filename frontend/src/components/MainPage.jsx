@@ -6,8 +6,9 @@ import DebugPanel from './DebugPanel';
 import MenuButton from './MenuButton';
 import ChatMessage from './ChatMessage';
 import LogoutButton from './LogoutButton';
-import { sendMessageToOpenAI } from '../utils/openaiService';
+import { sendMessageToOpenAI, getAnotherRecipe } from '../utils/openaiService';
 import { ImageAnalyzing, Thinking, Loading } from './LoadingAnimation';
+import axios from 'axios';
 
 const MainPage = () => {
   const [inputText, setInputText] = useState('');
@@ -20,19 +21,79 @@ const MainPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
   const [isSpeechInitializing, setIsSpeechInitializing] = useState(false);
-  const [conversationHistory, setConversationHistory] = useState([
-    {
-      role: 'system',
-      content:
-        'You are a helpful AI assistant that provides cooking suggestions based on ingredients users have in their fridge. Format your responses using markdown for better readability: \n\n' +
-        '- Use **bold text** for important information\n' +
-        '- Use bullet points (like this list) for ingredients\n' +
-        '- Use numbered lists (1., 2., 3.) for recipe steps\n' +
-        '- Use headings (# or ##) for recipe titles\n' +
-        '- Add blank lines between paragraphs\n\n' +
-        'Make your responses easy to read with proper formatting.',
-    },
-  ]);
+  const [savedIngredients, setSavedIngredients] = useState(null);
+  const photoInputRef = useRef(null);
+
+  // When receiving ingredients from image recognition
+  const handleImageRecognitionResult = (result, rawIngredients) => {
+    // Extract the ingredients text from the AI response if not directly provided
+    let ingredientsText = rawIngredients
+      ? rawIngredients.join(', ')
+      : extractIngredientsFromText(result);
+
+    // Save ingredients for future use
+    if (ingredientsText) {
+      setSavedIngredients(ingredientsText);
+    }
+
+    // Add the AI's response to chat
+    setMessages((prev) => [
+      ...prev,
+      {
+        text: result,
+        sender: 'assistant',
+      },
+    ]);
+
+    // Now send these ingredients to OpenAI for recipe suggestions
+    const userMessage = `I have these ingredients: ${ingredientsText}. What can I cook with them?`;
+
+    // Send to OpenAI asynchronously
+    setIsLoading(true);
+    sendMessageToOpenAI([
+      {
+        role: 'system',
+        content:
+          'You are a helpful AI assistant that provides cooking recipes based on ingredients.',
+      },
+      { role: 'user', content: userMessage },
+    ])
+      .then((aiResponse) => {
+        // Add AI response to messages
+        setMessages((prev) => [
+          ...prev,
+          { text: aiResponse.content, sender: 'assistant' },
+        ]);
+      })
+      .catch((error) => {
+        console.error('Failed to get AI response:', error);
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: `Sorry, I couldn't generate a recipe right now. Please try again.`,
+            sender: 'assistant',
+          },
+        ]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  // Extract ingredients from the AI's response text
+  const extractIngredientsFromText = (text) => {
+    // Look for patterns like "I can see these ingredients: tomato, onion, etc."
+    const match =
+      text.match(/ingredients:(.+?)(?=\.|$)/i) ||
+      text.match(/I can see.*?:(.+?)(?=\.|$)/i) ||
+      text.match(/I see.*?:(.+?)(?=\.|$)/i);
+
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+
+    return null;
+  };
 
   useEffect(() => {
     return () => {
@@ -44,8 +105,6 @@ const MainPage = () => {
       });
     };
   }, [messages]);
-
-  const photoInputRef = useRef(null);
 
   useEffect(() => {
     //Initialize speech config when component mounts
@@ -217,35 +276,41 @@ const MainPage = () => {
 
   const handleSubmit = async () => {
     if (inputText.trim()) {
-      // Add user message to UI
-      const userMessage = { text: inputText, sender: 'user' };
-      setMessages((prev) => [...prev, userMessage]);
-
-      // Update conversation history
-      const userMessageForAPI = { role: 'user', content: inputText };
-      const updatedHistory = [...conversationHistory, userMessageForAPI];
-      setConversationHistory(updatedHistory);
-
-      // Clear input field
+      const userMessage = inputText.trim();
       setInputText('');
-
-      // Show loading state
+      setMessages((prev) => [...prev, { text: userMessage, sender: 'user' }]);
       setIsLoading(true);
 
       try {
-        // Send message to OpenAI
-        const aiResponse = await sendMessageToOpenAI(updatedHistory);
+        // Check if user is asking for another recipe
+        const isAskingForAnotherRecipe =
+          userMessage.toLowerCase().includes('another recipe') ||
+          userMessage.toLowerCase().includes('other recipe') ||
+          userMessage.toLowerCase().includes('different recipe') ||
+          userMessage.toLowerCase().includes('more recipe');
 
-        // Add AI response to UI
-        const aiMessage = { text: aiResponse.content, sender: 'assistant' };
-        setMessages((prev) => [...prev, aiMessage]);
+        let response;
 
-        // Update conversation history with AI response
-        setConversationHistory([
-          ...updatedHistory,
+        if (isAskingForAnotherRecipe && savedIngredients) {
+          // Use the imported getAnotherRecipe function
+          response = await getAnotherRecipe(savedIngredients);
+        } else {
+          // Regular request - just send the current message
+          response = await sendMessageToOpenAI([
+            {
+              role: 'system',
+              content:
+                'You are a helpful AI assistant that provides cooking recipes based on ingredients.',
+            },
+            { role: 'user', content: userMessage },
+          ]);
+        }
+
+        setMessages((prev) => [
+          ...prev,
           {
-            role: 'assistant',
-            content: aiResponse.content,
+            text: response.content,
+            sender: 'assistant',
           },
         ]);
       } catch (error) {
@@ -253,7 +318,7 @@ const MainPage = () => {
         setMessages((prev) => [
           ...prev,
           {
-            text: 'Sorry, I had trouble processing your request. Please try again.',
+            text: `Sorry, I had trouble processing your request: ${error.message}. Please try again.`,
             sender: 'assistant',
           },
         ]);
@@ -264,79 +329,54 @@ const MainPage = () => {
   };
 
   const handlePhotoUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const fileUrl = URL.createObjectURL(file);
 
-    // Create a URL for the image preview
-    const imageUrl = URL.createObjectURL(file);
-
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      // Set analyzing image state to true to show the animation
-      setIsAnalyzingImage(true);
-
-      // Add the image to the chat immediately
-      const imageMessage = {
-        type: 'image',
-        imageUrl: imageUrl,
-        sender: 'user',
-      };
-      setMessages((prev) => [...prev, imageMessage]);
-
-      const response = await fetch('http://localhost:3000/api/vision/analyze', {
-        method: 'POST',
-        body: formData,
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const detectedItems = data.tags ? data.tags.join(', ') : '';
-
-      // Turn off the image analyzing animation
-      setIsAnalyzingImage(false);
-
-      // Send the detected items to the API but don't add as a visible message
-      const userMessageForAPI = {
-        role: 'user',
-        content: `Food items detected: ${detectedItems}. Please suggest recipes based on these ingredients.`,
-      };
-      const updatedHistory = [...conversationHistory, userMessageForAPI];
-      setConversationHistory(updatedHistory);
-
-      // Switch to thinking animation
-      setIsLoading(true);
-
-      const aiResponse = await sendMessageToOpenAI(updatedHistory);
-      const aiMessage = { text: aiResponse.content, sender: 'assistant' };
-      setMessages((prev) => [...prev, aiMessage]);
-
-      setConversationHistory([
-        ...updatedHistory,
-        {
-          role: 'assistant',
-          content: aiResponse.content,
-        },
-      ]);
-    } catch (error) {
-      console.error('Error analyzing image or getting AI response:', error);
+      // Add image message to UI
       setMessages((prev) => [
         ...prev,
-        {
-          text: 'Sorry, there was a problem analyzing the image or contacting the assistant.',
-          sender: 'assistant',
-        },
+        { type: 'image', imageUrl: fileUrl, sender: 'user' },
       ]);
-    } finally {
-      setIsAnalyzingImage(false);
-      setIsLoading(false);
-      if (photoInputRef.current) {
-        photoInputRef.current.value = '';
+
+      setIsAnalyzingImage(true);
+
+      try {
+        // Create form data for the file upload
+        const formData = new FormData();
+        formData.append('image', file);
+
+        // Send to Azure Vision API for analysis
+        const response = await axios.post('/api/vision/analyze', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        // Get the ingredients from the response
+        const ingredients = response.data.tags || [];
+
+        // Create a message about the identified ingredients
+        const ingredientsMessage = `I can see these ingredients: ${ingredients.join(
+          ', '
+        )}. What would you like to cook with them?`;
+
+        // Call handleImageRecognitionResult here with the result
+        handleImageRecognitionResult(ingredientsMessage, ingredients);
+      } catch (error) {
+        console.error('Image analysis error:', error);
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: 'Sorry, there was a problem analyzing the image or contacting the assistant.',
+            sender: 'assistant',
+          },
+        ]);
+      } finally {
+        setIsAnalyzingImage(false);
+        if (photoInputRef.current) {
+          photoInputRef.current.value = '';
+        }
       }
     }
   };
@@ -354,12 +394,12 @@ const MainPage = () => {
       </header>
 
       <main className={styles.mainContent}>
-        {/* <div className={styles.questionContainer}>
+        <div className={styles.questionContainer}>
           <h2 className={styles.question}>What's in your fridge?</h2>
           {statusMessage && (
             <div className={styles.statusMessage}>{statusMessage}</div>
           )}
-        </div> */}
+        </div>
 
         <div className={styles.chatContainer}>
           {messages.map((message, index) => (
@@ -378,7 +418,7 @@ const MainPage = () => {
           <input
             type="text"
             className={styles.input}
-            placeholder="what's in your fridge?"
+            placeholder="What do you want to cook today?"
             value={inputText}
             onChange={handleInputChange}
             onKeyDown={(e) => {
